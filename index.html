@@ -43,7 +43,7 @@
 <div id="overlay">
     <div id="message-box">
         <p id="message">ciao amore mio, mi sei mancato</p>
-        <button id="next-button">Avanti</button>
+        <button id="next-button">avanti</button>
     </div>
 </div>
 
@@ -61,11 +61,43 @@
         currentMessageIndex++;
         if (currentMessageIndex < messages.length) {
             document.getElementById('message').innerText = messages[currentMessageIndex];
+
+            if (currentMessageIndex === 2) {
+                document.getElementById('message-box').innerHTML = `
+                    <p id="message">${messages[currentMessageIndex]}</p>
+                    <button id="yes-button">sì</button>
+                    <button id="no-button">no</button>
+                `;
+                document.getElementById('yes-button').addEventListener('click', () => {
+                    currentMessageIndex++;
+                    document.getElementById('message-box').innerHTML = `
+                        <p id="message">${messages[currentMessageIndex]}</p>
+                        <button id="next-button">Avanti</button>
+                    `;
+                    document.getElementById('next-button').addEventListener('click', nextMessage);
+                });
+
+                document.getElementById('no-button').addEventListener('click', () => {
+                    document.getElementById('message-box').innerHTML = `
+                        <p id="message">ok esplodi</p>
+                    `;
+                });
+            }
         } else {
             document.getElementById('message').innerText = "ti amo <333";
             document.getElementById('next-button').disabled = true;
         }
     });
+
+    function nextMessage() {
+        currentMessageIndex++;
+        if (currentMessageIndex < messages.length) {
+            document.getElementById('message').innerText = messages[currentMessageIndex];
+        } else {
+            document.getElementById('message').innerText = "ti amo <333";
+            document.getElementById('next-button').disabled = true;
+        }
+    }
 
     window.onload = () => {
         document.getElementById('overlay').style.visibility = 'visible';
